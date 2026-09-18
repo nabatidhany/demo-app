@@ -1,0 +1,19 @@
+services:
+  demo-app:
+    image: nginx:alpine
+
+    networks:
+      - swarm-proxy
+
+    deploy:
+      replicas: 2
+
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.demo-app.rule=Host(`demo.dhanidwiputra.web.id`)
+        - traefik.http.routers.demo-app.entrypoints=web
+        - traefik.http.services.demo-app.loadbalancer.server.port=80
+
+networks:
+  swarm-proxy:
+    external: true
